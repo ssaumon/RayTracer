@@ -51,4 +51,9 @@ public class Point extends AbstractVec3 {
         // double epsilon = 1e - 9;
         return this.x == other.x && this.y == other.y && this.z == other.z;
     }
+
+    @Override
+    public String toString() {
+        return x + " " + y + " " + z;
+    }
 }

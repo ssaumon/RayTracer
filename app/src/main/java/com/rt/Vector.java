@@ -54,4 +54,9 @@ public class Vector extends AbstractVec3 {
         return this.x == other.x && this.y == other.y && this.z == other.z;
     }
 
+    @Override
+    public String toString() {
+        return x + " " + y + " " + z;
+    }
+
 }
