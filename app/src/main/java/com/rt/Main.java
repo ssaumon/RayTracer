@@ -7,7 +7,8 @@ public class Main {
         System.out.println("Hello, Ray Tracer!");
         Path path = Path.of("scenes/jalon2/test1.scene");
         Scene sc = new Scene(new SceneFileParser(path)); 
-        System.out.println(sc.getCamera());   
+        System.out.println(sc.getCamera());
+        System.out.println(sc.getLights().size());   
     }
 
 }
