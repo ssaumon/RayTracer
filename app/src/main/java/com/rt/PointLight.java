@@ -6,4 +6,10 @@ public class PointLight extends Light{
         super(color);
         this.point = point;
     }
+    Color getColor() {
+        return this.color;
+    }
+    Point getPoint() {
+        return this.point;
+    }
 }
