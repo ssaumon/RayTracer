@@ -9,7 +9,7 @@ public abstract class AbstractVec3 {
         this.z = z;
     }
 
-    abstract AbstractVec3 addition(AbstractVec3 other);
+    abstract AbstractVec3 addition(AbstractVec3 other) throws Exception;
     abstract AbstractVec3 soustraction(AbstractVec3 other);
     abstract AbstractVec3 multiplication(double scalaire);
     abstract double produitScalaire(AbstractVec3 other);

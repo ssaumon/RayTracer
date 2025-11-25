@@ -50,5 +50,5 @@ vertex +0 +1 0
 # Les points sont référencés par leur indice de déclaration, à partir de 0.
 
 # On déclare deux triangles pour faire un carré rouge
-ambient 1.0 .0 .0
+tri 1.0 .0 .0
 tri 0 1 2

@@ -59,25 +59,28 @@ public class SceneFileParser {
         throw new Exception("Camera line not found");
     }
 
-    public HashMap<String, ArrayList<Object>> getObjects(){
-        Color ambiant = new Color();
+    public HashMap<String, ArrayList<Object>> getObjects() throws Exception{
         
         HashMap<String, ArrayList<Object>> objects = new HashMap<>();
         objects.put("lights", new ArrayList<>());
         objects.put("shapes", new ArrayList<>());
         objects.put("ambient", new ArrayList<>());
-        objects.get("ambient").add(ambiant);
         Color diffuse = new Color();
         for (int i = 3; i < lines.size(); i++) {
             String line = lines.get(i);
             String[] tokens = line.split(" ");
             switch (tokens[0]) {
                 case "ambient":
-                    ambiant = new Color(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
-                    objects.get("ambient").set(0, ambiant);
+                    if (objects.get("ambient").size() > 0) {
+                        throw new Exception("Multiple ambient light definitions found");
+                    }
+                    Color ambient = new Color(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+                    
+                    objects.get("ambient").add(ambient);
                     break;
                 case "diffuse":
                     diffuse = new Color(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+                    // diffuse.addition(ambiant);
                     break;
                 case "point":
                     Point lightPoint = new Point(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));

@@ -6,5 +6,11 @@ public class VectorLight extends Light{
         super(color);
         this.vector = vector;
     }
+    Color getColor() {
+        return this.color;
+    }
+    Vector getVector() {
+        return this.vector;
+    }
 
 }
