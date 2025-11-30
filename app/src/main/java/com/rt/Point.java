@@ -47,13 +47,30 @@ public class Point extends AbstractVec3 {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    double distance(Point other) {
+        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2) + Math.pow(this.z - other.z, 2));
+    }
+
     Boolean equals(Point other) {
-        // double epsilon = 1e - 9;
-        return this.x == other.x && this.y == other.y && this.z == other.z;
+        double epsilon = 1e-9;
+        if(Math.abs(this.x - other.x) < epsilon && Math.abs(this.y - other.y) < epsilon && Math.abs(this.z - other.z) < epsilon) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     public String toString() {
         return x + " " + y + " " + z;
+    }
+    double getX(){
+        return x;
+    }
+    double getY(){
+        return y;
+    }
+    double getZ(){
+        return z;
     }
 }

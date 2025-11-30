@@ -49,4 +49,22 @@ public class Scene {
     public Camera getCamera() {
         return camera;
     }
+
+    Point nearIntersection(Ray ray) {
+        Point nearestPoint = null;
+        double minDistance = Double.MAX_VALUE;
+
+        for (Shape shape : shapes) {
+            Point intersectionPoint = shape.intersection(ray);
+            if (intersectionPoint != null) {
+                double distance = ray.origin.distance(intersectionPoint);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearestPoint = intersectionPoint;
+                }
+            }
+        }
+
+        return nearestPoint;
+    }
 }

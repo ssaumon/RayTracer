@@ -51,10 +51,8 @@ vertex -1 +1 0
 # Les points sont référencés par leur indice de déclaration, à partir de 0.
 
 # On déclare deux triangles pour faire un carré rouge
-ambient 1.0 .0 .0
 tri 0 1 2
 tri 0 2 3
 
 # On déclare une sphere à partir de son centre et de son rayon
-ambient 0.0 .0 1.0
 sphere 0 0 0 1.0

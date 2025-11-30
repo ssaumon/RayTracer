@@ -63,7 +63,12 @@ public class Color extends AbstractVec3 {
     }
 
     Boolean equals(Color other) {
-        return this.x == other.x && this.y == other.y && this.z == other.z;
+        double epsilon = 1e-9;
+        if(Math.abs(this.x - other.x) < epsilon && Math.abs(this.y - other.y) < epsilon && Math.abs(this.z - other.z) < epsilon) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public int toRGB(){

@@ -1,9 +1,11 @@
 package com.rt;
 
-public class Shape {
+public abstract class Shape {
 Color color;
 
     public Shape(Color color) {
         this.color = color;
     }
+
+    abstract Point intersection(Ray rayon);
 }
