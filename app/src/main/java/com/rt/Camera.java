@@ -17,4 +17,17 @@ public class Camera {
     public String toString() {
         return lookFrom.toString() + "\n" + lookAt.toString() + "\n" + up.toString() + "\n" + fov;
     }
+
+    Point getLookFrom(){
+        return lookFrom;
+    }
+    Point getLookAt(){
+        return lookAt;
+    }
+    Vector up(){
+        return up;
+    }
+    double getFov(){
+        return fov;
+    }
 }

@@ -51,12 +51,27 @@ public class Vector extends AbstractVec3 {
     }
 
     Boolean equals(Vector other) {
-        return this.x == other.x && this.y == other.y && this.z == other.z;
+        double epsilon = 1e-9;
+        if(Math.abs(this.x - other.x) < epsilon && Math.abs(this.y - other.y) < epsilon && Math.abs(this.z - other.z) < epsilon) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     public String toString() {
         return x + " " + y + " " + z;
+    }
+
+    double getX(){
+        return x;
+    }
+    double getY(){
+        return y;
+    }
+    double getZ(){
+        return z;
     }
 
 }
