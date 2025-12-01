@@ -30,6 +30,7 @@ public class RayTracer {
         ambient = sc.getAmbient();
         lights = sc.getLights();
         shapes = sc.getShapes();
+        output = sc.getOutput();
         fovr = (sc.getCamera().getFov()*Math.PI)/180;
         pixelHeight = Math.tan(fovr/2);
         pixelWidth = pixelHeight*width/height;
@@ -53,9 +54,9 @@ public class RayTracer {
                 Ray ray = new Ray(camera.getLookFrom(), direction);
                 Point intersectionPoint = sc.nearIntersection(ray);
                 if (intersectionPoint != null) {
-                    image.setRGB(i, height - j - 1, sc.getAmbient().toRGB());
+                    image.setRGB(i, height - j - 1, new Color(1,0,0).toRGB());
                 } else {
-                    image.setRGB(i, height - j - 1, new Color().toRGB());
+                    image.setRGB(i, height - j - 1, sc.getAmbient().toRGB());
                 }
             }
         }
