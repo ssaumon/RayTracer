@@ -39,25 +39,6 @@ public class SceneFileParser {
         throw new Exception("Size line not found");
     }
 
-    public String getOutput()throws Exception{
-        if (lines.get(1).startsWith("output")){
-            String[] tokens = lines.get(1).split(" ");
-            return tokens[1];
-        }
-        throw new Exception("Output line not found");
-    }
-
-    public Camera getCamera() throws Exception{
-        if (lines.get(2).startsWith("camera")){
-            String[] tokens = lines.get(2).split(" ");
-            Point lookFromPoint = new Point(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
-            Point lookAtPoint = new Point(Double.parseDouble(tokens[4]), Double.parseDouble(tokens[5]), Double.parseDouble(tokens[6]));
-            Vector up = new Vector(Double.parseDouble(tokens[7]), Double.parseDouble(tokens[8]), Double.parseDouble(tokens[9]));
-            double fov = Double.parseDouble(tokens[10]);
-            return new Camera(lookFromPoint, lookAtPoint, up, fov);
-        }
-        throw new Exception("Camera line not found");
-    }
 
     public HashMap<String, ArrayList<Object>> getObjects() throws Exception{
         
@@ -65,8 +46,10 @@ public class SceneFileParser {
         objects.put("lights", new ArrayList<>());
         objects.put("shapes", new ArrayList<>());
         objects.put("ambient", new ArrayList<>());
+        objects.put("output", new ArrayList<>());
+        objects.put("camera", new ArrayList<>());
         Color diffuse = new Color();
-        for (int i = 3; i < lines.size(); i++) {
+        for (int i = 1; i < lines.size(); i++) {
             String line = lines.get(i);
             String[] tokens = line.split(" ");
             switch (tokens[0]) {
@@ -97,8 +80,32 @@ public class SceneFileParser {
                     double radius = Double.parseDouble(tokens[4]);
                     objects.get("shapes").add(new Sphere(center, radius, diffuse));
                     break;
+                case "output":
+                    if(objects.get("output").size() > 0) {
+                        throw new Exception("Multiple output definitions found");
+                    }
+                    objects.get("output").add(tokens[1]);
+                    break;
+                case "camera":
+                    if(objects.get("camera").size() > 0) {
+                        throw new Exception("Multiple camera definitions found");
+                    }
+                    Point lookFromPoint = new Point(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+                    Point lookAtPoint = new Point(Double.parseDouble(tokens[4]), Double.parseDouble(tokens[5]), Double.parseDouble(tokens[6]));
+                    Vector up = new Vector(Double.parseDouble(tokens[7]), Double.parseDouble(tokens[8]), Double.parseDouble(tokens[9]));
+                    double fov = Double.parseDouble(tokens[10]);
+                    objects.get("camera").add(new Camera(lookFromPoint, lookAtPoint, up, fov));
                 // Add more cases for other shapes as needed
             }
+        }
+        if (objects.get("ambient").size() == 0) {
+            objects.get("ambient").add(new Color());
+        }
+        if (objects.get("output").size() == 0) {
+            objects.get("output").add("output.png");
+        }
+         if (objects.get("camera").size() == 0) {
+            throw new Exception("No camera definition found");
         }
         return objects;
     }

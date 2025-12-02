@@ -52,9 +52,29 @@ public class RayTracer {
             for (int i = 0; i < width; i++) {
                 Vector direction = pixelDirection(i, j);
                 Ray ray = new Ray(camera.getLookFrom(), direction);
-                Point intersectionPoint = sc.nearIntersection(ray);
+                Intersection intersectionPoint = sc.nearIntersection(ray);
                 if (intersectionPoint != null) {
-                    image.setRGB(i, height - j - 1, new Color(1,0,0).toRGB());
+                    Color color = new Color();
+                    for (Light light : lights){
+                        if (light.getClass() == VectorLight.class){
+                                VectorLight vectorLight = (VectorLight) light;
+                                if (intersectionPoint.hasObstacle(sc, vectorLight)){
+                                    continue;
+                                }else{
+                                    
+                                color =(Color) color.addition(intersectionPoint.lambert(vectorLight));
+                                }
+                        }else if (light.getClass() == PointLight.class){
+                            PointLight pointLight = (PointLight) light;
+                            if (intersectionPoint.hasObstacle(sc, pointLight)){
+                                continue;
+                            }else{
+                            color =(Color) color.addition(intersectionPoint.lambert(pointLight));
+                            }
+                        }
+                        
+                    }
+                    image.setRGB(i, height - j - 1,color.toRGB());
                 } else {
                     image.setRGB(i, height - j - 1, sc.getAmbient().toRGB());
                 }
