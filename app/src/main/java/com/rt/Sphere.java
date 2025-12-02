@@ -11,7 +11,8 @@ public class Sphere extends Shape{
         this.radius = radius;
     }
 
-    Point intersection(Ray rayon){
+    @Override
+    Intersection intersection(Ray rayon){
         double a = rayon.direction.produitScalaire(rayon.direction);
         double b = rayon.direction.produitScalaire(rayon.origin.soustraction(center))*2;
         double c = (rayon.origin.soustraction(center)).produitScalaire(rayon.origin.soustraction(center)) - radius*radius;
@@ -36,8 +37,13 @@ public class Sphere extends Shape{
             else{
                 return null;
             }
-            return new Point(rayon.origin.x + t*rayon.direction.x, rayon.origin.y + t*rayon.direction.y, rayon.origin.z + t*rayon.direction.z);
+            return new Intersection(rayon, new Point(rayon.origin.x + t*rayon.direction.x, rayon.origin.y + t*rayon.direction.y, rayon.origin.z + t*rayon.direction.z), this);
         }
+    }
+
+    @Override
+    Vector getNormalAt(Point p){
+        return (Vector)(p.soustraction(center)).normalisation();
     }
 
 }

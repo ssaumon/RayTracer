@@ -7,5 +7,6 @@ Color color;
         this.color = color;
     }
 
-    abstract Point intersection(Ray rayon);
+    abstract Intersection intersection(Ray rayon);
+    abstract Vector getNormalAt(Point p);
 }

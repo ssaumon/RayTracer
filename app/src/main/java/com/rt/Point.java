@@ -51,14 +51,17 @@ public class Point extends AbstractVec3 {
         return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2) + Math.pow(this.z - other.z, 2));
     }
 
-    Boolean equals(Point other) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Point other = (Point) obj;
         double epsilon = 1e-9;
-        if(Math.abs(this.x - other.x) < epsilon && Math.abs(this.y - other.y) < epsilon && Math.abs(this.z - other.z) < epsilon) {
-            return true;
-        }else{
-            return false;
-        }
+        return Math.abs(this.x - other.x) < epsilon &&
+            Math.abs(this.y - other.y) < epsilon &&
+            Math.abs(this.z - other.z) < epsilon;
     }
+
 
     @Override
     public String toString() {

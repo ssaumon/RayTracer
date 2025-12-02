@@ -15,11 +15,11 @@ public class Scene {
     Scene(SceneFileParser parser) throws Exception {
         this.width = parser.getWidth();
         this.height = parser.getHeight();
-        this.output = parser.getOutput();
+        this.output = (String)parser.getObjects().get("output").get(0);
         lights = (List<Light>)(Object)parser.getObjects().get("lights");
         shapes = (List<Shape>)(Object)parser.getObjects().get("shapes");
         ambient = (Color)(Object)parser.getObjects().get("ambient").get(0);
-        this.camera = parser.getCamera();
+        this.camera = (Camera)parser.getObjects().get("camera").get(0);
     }
 
     public int getWidth() {
@@ -50,21 +50,28 @@ public class Scene {
         return camera;
     }
 
-    Point nearIntersection(Ray ray) {
+    Intersection nearIntersection(Ray ray) {
         Point nearestPoint = null;
         double minDistance = Double.MAX_VALUE;
+        Shape nearestShape = null;
+        double eps = 1e-7;
 
         for (Shape shape : shapes) {
-            Point intersectionPoint = shape.intersection(ray);
-            if (intersectionPoint != null) {
-                double distance = ray.origin.distance(intersectionPoint);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    nearestPoint = intersectionPoint;
+                Intersection inter = shape.intersection(ray);
+                if (inter != null) {
+                    Point p = inter.getPoint();
+                    double dist = ray.origin.distance(p);
+
+                    if (dist > eps && dist < minDistance) {
+                        minDistance = dist;
+                        nearestPoint = p;
+                        nearestShape = shape;
+                    }
                 }
             }
+        if (nearestPoint == null) {
+            return null;
         }
-
-        return nearestPoint;
+        return new Intersection(ray, nearestPoint, nearestShape);
     }
 }

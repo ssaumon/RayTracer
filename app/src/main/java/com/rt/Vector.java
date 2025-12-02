@@ -50,13 +50,15 @@ public class Vector extends AbstractVec3 {
         return new Vector(this.x / len, this.y / len, this.z / len);
     }
 
-    Boolean equals(Vector other) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Vector other = (Vector) obj;
         double epsilon = 1e-9;
-        if(Math.abs(this.x - other.x) < epsilon && Math.abs(this.y - other.y) < epsilon && Math.abs(this.z - other.z) < epsilon) {
-            return true;
-        }else{
-            return false;
-        }
+        return Math.abs(this.x - other.x) < epsilon &&
+            Math.abs(this.y - other.y) < epsilon &&
+            Math.abs(this.z - other.z) < epsilon;
     }
 
     @Override

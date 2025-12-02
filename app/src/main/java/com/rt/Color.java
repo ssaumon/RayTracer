@@ -10,15 +10,11 @@ public class Color extends AbstractVec3 {
     }
 
     @Override
-    AbstractVec3 addition(AbstractVec3 other) throws Exception {
-         double x1 = this.x + other.x;
-         double y1 = this.y + other.y;
-         double z1 = this.z + other.z;
-
-         if (x1 >1.0 || y1>1.0 || z1>1.0) {
-          throw new Exception("Color addition overflow");
-         }
-         return new Color(x1, y1, z1);
+    AbstractVec3 addition(AbstractVec3 other) {
+        double x1 = Math.min(this.x + other.x, 1.0);
+        double y1 = Math.min(this.y + other.y, 1.0);
+        double z1 = Math.min(this.z + other.z, 1.0);
+        return new Color(x1, y1, z1);
     }
 
     @Override
@@ -63,7 +59,7 @@ public class Color extends AbstractVec3 {
     }
 
     Boolean equals(Color other) {
-        double epsilon = 1e-9;
+        double epsilon = 1e-7;
         if(Math.abs(this.x - other.x) < epsilon && Math.abs(this.y - other.y) < epsilon && Math.abs(this.z - other.z) < epsilon) {
             return true;
         }else{
