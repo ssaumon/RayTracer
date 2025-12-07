@@ -76,4 +76,12 @@ public class Vector extends AbstractVec3 {
         return z;
     }
 
+    public Vector reflect(Vector normal) {
+    Vector I = (Vector) this;
+    Vector N = (Vector) normal;
+
+    double prodScalaire = I.produitScalaire(N);
+
+    return (Vector) I.soustraction(N.multiplication(2 * prodScalaire));
+    }
 }

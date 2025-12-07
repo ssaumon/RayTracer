@@ -11,7 +11,12 @@ public class Main {
         rt.render();
         System.out.println(sc.getCamera());
         System.out.println(sc.getAmbient());
-        System.out.println(sc.getLights().size());   
+        System.out.println(sc.getLights().size());
+        
+         path = Path.of("scenes/jalon5/tp51-specular.test");
+         sc = new Scene(new SceneFileParser(path));
+         rt = new RayTracer(sc);
+        rt.render();
     }
 
 }

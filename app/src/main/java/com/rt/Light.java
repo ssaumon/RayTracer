@@ -6,4 +6,7 @@ Color color;
     public Light(Color color) {
         this.color = color;
     }
+    Color getColor() {
+        return this.color;
+    }
 }

@@ -54,25 +54,26 @@ public class RayTracer {
                 Ray ray = new Ray(camera.getLookFrom(), direction);
                 Intersection intersectionPoint = sc.nearIntersection(ray);
                 if (intersectionPoint != null) {
-                    Color color = new Color();
+                    Color color =(Color) sc.getAmbient().produitSchur(intersectionPoint.getShape().color);
                     for (Light light : lights){
                         if (light.getClass() == VectorLight.class){
-                                VectorLight vectorLight = (VectorLight) light;
-                                if (intersectionPoint.hasObstacle(sc, vectorLight)){
-                                    continue;
-                                }else{
-                                    
-                                color =(Color) color.addition(intersectionPoint.lambert(vectorLight));
-                                }
+                            VectorLight vectorLight = (VectorLight) light;
+                            if (intersectionPoint.hasObstacle(sc, vectorLight)){
+                                continue;
+                            }else{
+                                
+                            color =(Color) color.addition(intersectionPoint.lambert(vectorLight));
+                            color = (Color) color.addition(intersectionPoint.phong(vectorLight, camera));
+                            }
                         }else if (light.getClass() == PointLight.class){
                             PointLight pointLight = (PointLight) light;
                             if (intersectionPoint.hasObstacle(sc, pointLight)){
                                 continue;
                             }else{
                             color =(Color) color.addition(intersectionPoint.lambert(pointLight));
+                            color = (Color) color.addition(intersectionPoint.phong(pointLight, camera));
                             }
                         }
-                        
                     }
                     image.setRGB(i, height - j - 1,color.toRGB());
                 } else {

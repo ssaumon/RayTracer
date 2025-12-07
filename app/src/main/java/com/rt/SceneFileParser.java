@@ -48,7 +48,11 @@ public class SceneFileParser {
         objects.put("ambient", new ArrayList<>());
         objects.put("output", new ArrayList<>());
         objects.put("camera", new ArrayList<>());
+        objects.put("specular", new ArrayList<>());
+        boolean hasSpecular = false;
         Color diffuse = new Color();
+        Color specular = new Color();
+        double shininess = 1.0;
         for (int i = 1; i < lines.size(); i++) {
             String line = lines.get(i);
             String[] tokens = line.split(" ");
@@ -63,7 +67,9 @@ public class SceneFileParser {
                     break;
                 case "diffuse":
                     diffuse = new Color(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
-                    // diffuse.addition(ambiant);
+                    break;
+                case "specular":
+                    specular = new Color(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
                     break;
                 case "point":
                     Point lightPoint = new Point(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
@@ -78,7 +84,7 @@ public class SceneFileParser {
                 case "sphere":
                     Point center = new Point(Double.parseDouble(tokens[1]), Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
                     double radius = Double.parseDouble(tokens[4]);
-                    objects.get("shapes").add(new Sphere(center, radius, diffuse));
+                        objects.get("shapes").add(new Sphere(center, radius, diffuse, shininess,specular));
                     break;
                 case "output":
                     if(objects.get("output").size() > 0) {
@@ -95,7 +101,10 @@ public class SceneFileParser {
                     Vector up = new Vector(Double.parseDouble(tokens[7]), Double.parseDouble(tokens[8]), Double.parseDouble(tokens[9]));
                     double fov = Double.parseDouble(tokens[10]);
                     objects.get("camera").add(new Camera(lookFromPoint, lookAtPoint, up, fov));
-                // Add more cases for other shapes as needed
+                    break;
+                case "shininess":
+                    shininess = Double.parseDouble(tokens[1]);
+                    break;
             }
         }
         if (objects.get("ambient").size() == 0) {
