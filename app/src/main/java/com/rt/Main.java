@@ -2,21 +2,36 @@ package com.rt;
 
 import java.nio.file.Path;
 
+/**
+ * Point d'entrée principal du moteur de Ray Tracing.
+ * <p>
+ * Cette classe initialise la scène à partir d’un fichier,
+ * crée un {@link RayTracer} et lance le rendu.
+ * </p>
+ */
 public class Main {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, Ray Tracer!");
-        Path path = Path.of("scenes/jalon5/tp51-diffuse.test");
-        Scene sc = new Scene(new SceneFileParser(path));
-        RayTracer rt = new RayTracer(sc);
-        rt.render();
-        System.out.println(sc.getCamera());
-        System.out.println(sc.getAmbient());
-        System.out.println(sc.getLights().size());
-        
-         path = Path.of("scenes/jalon5/tp51-specular.test");
-         sc = new Scene(new SceneFileParser(path));
-         rt = new RayTracer(sc);
-        rt.render();
-    }
 
+    /**
+     * Méthode principale du programme.
+     *
+     * @param args arguments de ligne de commande (non utilisés)
+     * @throws Exception si une erreur survient lors du chargement de la scène
+     */
+    public static void main(String[] args) throws Exception {
+        System.out.println("Lancement du Ray Tracer!");
+
+        // Chemin vers le fichier de description de la scène
+        Path path = Path.of(args[0]);
+
+        // Chargement et parsing de la scène
+        Scene sc = new Scene(new SceneFileParser(path));
+
+        // Création du RayTracer
+        RayTracer rt = new RayTracer(sc);
+
+        // Lancement du rendu
+        rt.render();
+
+        System.out.println("Fin du Ray Tracer !");
+    }
 }
